@@ -3,16 +3,37 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
   <title>Garimpo Inteligente - OAuth</title>
 </head>
 <body>
   <h2>Garimpo Inteligente</h2>
-  <p>Página de retorno da autorização.</p>
-  <p>
-    Esta página não coleta nem armazena
-    códigos de autorização.
-  </p>
+  <p id="status">Verificando retorno da autorização...</p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    const codigo = params.get("code");
+    const erro = params.get("error");
+
+    // Remove os parâmetros da barra de endereço.
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
+
+    if (erro) {
+      document.getElementById("status").textContent =
+        "A autorização não foi concluída.";
+    } else if (codigo) {
+      document.getElementById("status").textContent =
+        "Retorno recebido. Não compartilhe códigos ou tokens.";
+    } else {
+      document.getElementById("status").textContent =
+        "Página de retorno do Garimpo Inteligente.";
+    }
+  </script>
 </body>
 </html>
